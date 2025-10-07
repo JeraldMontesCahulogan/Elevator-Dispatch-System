@@ -19,7 +19,7 @@ import { lookAlgorithm } from "./algorithms/look";
 import { clookAlgorithm } from "./algorithms/clook";
 
 export default function App() {
-  const [selectedDataset, setSelectedDataset] = useState("normal"); // default dataset
+  const [selectedDataset, setSelectedDataset] = useState("normal");
   const [chartData, setChartData] = useState([]);
   const [metrics, setMetrics] = useState({});
 
@@ -37,28 +37,35 @@ export default function App() {
     }
   };
 
-  const handleRun = (algorithm) => {
+  // ✅ Use different max floor depending on dataset
+  const getMaxFloor = () => {
+    if (selectedDataset === "super") return 12;
+    return 9;
+  };
+
+  const handleRun = (algorithm, startFloor = 0) => {
     const requests = getRequests();
+    const maxFloor = getMaxFloor();
     let result;
 
     switch (algorithm) {
       case "SCAN":
-        result = scanAlgorithm(requests, 0, 10);
+        result = scanAlgorithm(requests, startFloor, maxFloor);
         break;
       case "SSTF":
-        result = sstfAlgorithm(requests, 0);
+        result = sstfAlgorithm(requests, startFloor);
         break;
       case "FCFS":
-        result = fcfsAlgorithm(requests, 0);
+        result = fcfsAlgorithm(requests, startFloor);
         break;
       case "C-SCAN":
-        result = cscanAlgorithm(requests, 0, 10);
+        result = cscanAlgorithm(requests, startFloor, maxFloor);
         break;
       case "LOOK":
-        result = lookAlgorithm(requests, 0);
+        result = lookAlgorithm(requests, startFloor);
         break;
       case "C-LOOK":
-        result = clookAlgorithm(requests, 0);
+        result = clookAlgorithm(requests, startFloor);
         break;
       default:
         alert("Unknown algorithm selected!");
@@ -86,7 +93,7 @@ export default function App() {
     });
   };
 
-  const requests = getRequests(); // get dataset to display requests
+  const requests = getRequests();
 
   return (
     <div className="p-6 max-w-5xl mx-auto">
@@ -121,10 +128,9 @@ export default function App() {
         </ul>
       </div>
 
-      {/* Control panel for algorithm selection */}
-      <ControlPanel onRun={handleRun} />
+      {/* ✅ Pass selectedDataset to ControlPanel */}
+      <ControlPanel onRun={handleRun} selectedDataset={selectedDataset} />
 
-      {/* Simulation results */}
       {chartData.length > 0 && (
         <>
           <ElevatorChart data={chartData} />
