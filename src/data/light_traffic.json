@@ -1,0 +1,7 @@
+[
+  { "id": 1, "timestamp": 0, "floor": 1 },
+  { "id": 2, "timestamp": 2, "floor": 3 },
+  { "id": 3, "timestamp": 4, "floor": 2 },
+  { "id": 4, "timestamp": 6, "floor": 9 },
+  { "id": 5, "timestamp": 8, "floor": 5 }
+]
