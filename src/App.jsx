@@ -12,7 +12,7 @@ import { ArrowUp } from "lucide-react";
 import ThemeToggleButton from "./components/ThemeToggleButton";
 
 export default function App() {
-  const [selectedDataset, setSelectedDataset] = useState("normal");
+  const [selectedDataset, setSelectedDataset] = useState("light");
   const [chartData, setChartData] = useState([]);
   const [metrics, setMetrics] = useState({});
 
